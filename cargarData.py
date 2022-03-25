@@ -28,7 +28,7 @@ def leerXML(path):
                     contenidoColumnas = fila.text
                     i = 1
                     while i < len(contenidoColumnas)-1:
-                        nodoAux = NodoInterno(i,numeroFila,contenidoColumnas[i])
+                        nodoAux = NodoInterno(numeroFila,i,contenidoColumnas[i])
                         matrizAux.insertar(nodoAux)
                         print(contenidoColumnas[i],end="-")
                         print(f"Número Columna {i} ")

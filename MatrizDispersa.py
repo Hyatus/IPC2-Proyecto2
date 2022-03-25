@@ -155,7 +155,9 @@ class MatrizDispersa():
                 elif aux2.caracter == 'E':
                     grafo += 'N{}_{}[label="{}",group="{}", fillcolor="green"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)  
                 elif aux2.caracter == 'M':
-                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="red"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)  
+                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="red"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1) 
+                elif aux2.caracter == ' ':
+                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="white"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)   
                 aux2 = aux2.derecha
             aux = aux.siguiente
             if aux != None:
