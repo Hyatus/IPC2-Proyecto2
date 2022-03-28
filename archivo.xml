@@ -16,6 +16,68 @@
             <unidadMilitar fila="2" columna="5">10</unidadMilitar>
             <unidadMilitar fila="5" columna="5">20</unidadMilitar>
         </ciudad>
+        <ciudad>
+            <nombre filas="10" columnas="10">CiudadPetapa</nombre>
+            <fila numero="1">"**********"</fila>
+            <fila numero="2">"*E    C  R"</fila>
+            <fila numero="3">"*** *   **"</fila>
+            <fila numero="4">"*** * ****"</fila>
+            <fila numero="5">"***     C*"</fila>
+            <fila numero="6">"E   * ****"</fila>
+            <fila numero="7">"*** *** **"</fila>
+            <fila numero="8">"***   ***C"</fila>
+            <fila numero="9">"*** ******"</fila>
+            <fila numero="10">"***      R"</fila>
+            <unidadMilitar fila="2" columna="6">10</unidadMilitar>
+            <unidadMilitar fila="5" columna="7">20</unidadMilitar>
+            <unidadMilitar fila="10" columna="5">60</unidadMilitar>
+        </ciudad>
+        <ciudad>
+            <nombre filas="10" columnas="10">CiudadMixco</nombre>
+            <fila numero="1">"****E ****"</fila>
+            <fila numero="2">"***   C  R"</fila>
+            <fila numero="3">"*** ***R**"</fila>
+            <fila numero="4">"*** *** **"</fila>
+            <fila numero="5">"***  R  C*"</fila>
+            <fila numero="6">"E   *** **"</fila>
+            <fila numero="7">"*** *** **"</fila>
+            <fila numero="8">"***C*** *C"</fila>
+            <fila numero="9">"*** *** **"</fila>
+            <fila numero="10">"***E    R"</fila>
+            <unidadMilitar fila="2" columna="5">10</unidadMilitar>
+            <unidadMilitar fila="5" columna="5">20</unidadMilitar>
+            <unidadMilitar fila="10" columna="5">60</unidadMilitar>
+        </ciudad>
+            <ciudad>
+            <nombre filas="10" columnas="10">Ciudad San Cristobal</nombre>
+            <fila numero="1">"**********"</fila>
+            <fila numero="2">"***   C  R"</fila>
+            <fila numero="3">"*** **  **"</fila>
+            <fila numero="4">"*** **  **"</fila>
+            <fila numero="5">"***     C*"</fila>
+            <fila numero="6">"E   **  **"</fila>
+            <fila numero="7">"*** ******"</fila>
+            <fila numero="8">"*** **  *C"</fila>
+            <fila numero="9">"*** **  **"</fila>
+            <fila numero="10">"***    CR"</fila>
+            <unidadMilitar fila="2" columna="5">10</unidadMilitar>
+            <unidadMilitar fila="5" columna="5">20</unidadMilitar>
+        </ciudad>
+        <ciudad>
+            <nombre filas="10" columnas="10">CiudadGuate</nombre>
+            <fila numero="1">"**********"</fila>
+            <fila numero="2">"***   C  R"</fila>
+            <fila numero="3">"*** ******"</fila>
+            <fila numero="4">"*** ******"</fila>
+            <fila numero="5">"***     C*"</fila>
+            <fila numero="6">"E **** ***"</fila>
+            <fila numero="7">"*** ******"</fila>
+            <fila numero="8">"*** *****C"</fila>
+            <fila numero="9">"*** ******"</fila>
+            <fila numero="10">"***      R"</fila>
+            <unidadMilitar fila="2" columna="5">10</unidadMilitar>
+            <unidadMilitar fila="5" columna="5">20</unidadMilitar>
+        </ciudad>
     </listaCiudades>
     <robots>
         <robot>
@@ -32,6 +94,9 @@
         </robot>
         <robot>
             <nombre tipo="ChapinFighter" capacidad="100">Megatron</nombre>
+        </robot>
+        <robot>
+            <nombre tipo="ChapinFighter" capacidad="70">MaxSteel</nombre>
         </robot>
     </robots>
 </configuracion>

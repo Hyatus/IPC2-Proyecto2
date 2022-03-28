@@ -73,7 +73,7 @@ class MatrizDispersa():
                         else:
                             aux2 = aux2.abajo
                             
-    def recorrerMatriz(self,fila:int,columna:int):
+    def insertarMilitar(self,fila:int,columna:int,poder:int):
         aux = self.filas.primero
         aux2 = aux.acceso
         
@@ -82,7 +82,8 @@ class MatrizDispersa():
                 if aux2.derecha != None:
                     if aux2.x == fila and aux2.y == columna:
                         aux2.caracter = 'M'
-                    print(f'Posicion: ({aux2.x} , {aux2.y}) Caracter: {aux2.caracter}')
+                        aux2.poder = poder
+                    #print(f'Posicion: ({aux2.x} , {aux2.y}) Caracter: {aux2.caracter}')
                 aux2 = aux2.derecha
             aux = aux.siguiente
             if aux != None:
