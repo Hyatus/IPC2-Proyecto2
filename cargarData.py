@@ -62,8 +62,7 @@ def leerXML(path,ListaCiudades,ListaRobots):
                         chapinRescueAux = ChapinRescue(nombreRobot,tipoRobot)
                         ListaRobots.insertarRobot(chapinRescueAux)
                         #print(f'Nombre: {nombreRobot} Tipo: {tipoRobot}')
-                        
-                       
+                                             
         # FILA COLUMNA
         #        matrizAux.insertarMilitar(2,5)   
         #        matrizAux.insertarMilitar(5,5)             

@@ -89,6 +89,22 @@ class MatrizDispersa():
             if aux != None:
                 aux2 = aux.acceso
            
+    def contarCiviles(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        contadorCiviles = 0
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'C':
+                         contadorCiviles += 1
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+                
+        return contadorCiviles
+        
         
 
     def graficarDot(self, nombre):

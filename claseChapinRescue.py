@@ -4,5 +4,5 @@ class ChapinRescue:
     self.tipo = tipo 
     
   def imprimirDatos(self):
-        print(f'nombre: {self.nombre}')
+        print(f'█ nombre: {self.nombre}')
    

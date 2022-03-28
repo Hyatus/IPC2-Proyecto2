@@ -52,3 +52,56 @@ class ListaRobots:
             actual = actual.siguiente
             
         return None
+      
+  def hayRobotsDeRescate(self):
+      actual = self.primero
+      
+      while actual != None:
+        if actual.Robot.tipo == "ChapinRescue":
+              return True
+        actual = actual.siguiente
+      
+      return False
+        
+  def hayRobotsDeExtraccion(self):
+      actual = self.primero
+      
+      while actual != None:
+        if actual.Robot.tipo == "ChapinFighter":
+              return True
+        actual = actual.siguiente
+      
+      return False
+    
+    
+  def contadorRobotsRescate(self):
+      actual = self.primero
+      contador = 0
+      while actual != None:
+        if actual.Robot.tipo == "ChapinRescue":
+            contador += 1
+        actual = actual.siguiente
+      
+      return contador 
+    
+  def escogerChapinRescueAutomatico(self):
+      actual = self.primero
+      while actual != None:
+        if actual.Robot.tipo == "ChapinRescue":
+            return actual.Robot
+        actual = actual.siguiente 
+            
+  
+  def contadorRobotsExtraccion(self):
+      actual = self.primero
+      contador = 0
+      while actual != None:
+        if actual.Robot.tipo == "ChapinFighter":
+            contador += 1
+        actual = actual.siguiente
+      
+      return contador 
+    
+    
+        
+        

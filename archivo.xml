@@ -66,15 +66,15 @@
         <ciudad>
             <nombre filas="10" columnas="10">CiudadGuate</nombre>
             <fila numero="1">"**********"</fila>
-            <fila numero="2">"***   C  R"</fila>
+            <fila numero="2">"***      R"</fila>
             <fila numero="3">"*** ******"</fila>
             <fila numero="4">"*** ******"</fila>
-            <fila numero="5">"***     C*"</fila>
+            <fila numero="5">"***      *"</fila>
             <fila numero="6">"E **** ***"</fila>
             <fila numero="7">"*** ******"</fila>
-            <fila numero="8">"*** *****C"</fila>
+            <fila numero="8">"*** ******"</fila>
             <fila numero="9">"*** ******"</fila>
-            <fila numero="10">"***      R"</fila>
+            <fila numero="10">"***     R"</fila>
             <unidadMilitar fila="2" columna="5">10</unidadMilitar>
             <unidadMilitar fila="5" columna="5">20</unidadMilitar>
         </ciudad>
@@ -84,19 +84,22 @@
             <nombre tipo="ChapinFighter" capacidad="50">Robocop</nombre>
         </robot>
         <robot>
-            <nombre tipo="ChapinRescue">Ironman</nombre>
-        </robot>
-        <robot>
             <nombre tipo="ChapinFighter" capacidad="10">MaxSteel</nombre>
-        </robot>
-        <robot>
-            <nombre tipo="ChapinRescue">OptimusPrime</nombre>
         </robot>
         <robot>
             <nombre tipo="ChapinFighter" capacidad="100">Megatron</nombre>
         </robot>
         <robot>
             <nombre tipo="ChapinFighter" capacidad="70">MaxSteel</nombre>
+        </robot>
+        <robot>
+            <nombre tipo="ChapinRescue">MaxSteel</nombre>
+        </robot>
+        <robot>
+            <nombre tipo="ChapinRescue">Ultraman</nombre>
+        </robot>
+        <robot>
+            <nombre tipo="ChapinRescue">Robocop</nombre>
         </robot>
     </robots>
 </configuracion>

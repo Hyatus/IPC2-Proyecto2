@@ -6,6 +6,6 @@ class ChapinFighter:
     
     
   def imprimirDatos(self):
-        print(f'nombre: {self.nombre} Capacidad de Combate: {self.capacidadCombate}')
+        print(f'█ nombre: {self.nombre} Capacidad de Combate: {self.capacidadCombate}')
     
     
