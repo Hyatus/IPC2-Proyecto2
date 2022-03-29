@@ -88,6 +88,22 @@ class MatrizDispersa():
             aux = aux.siguiente
             if aux != None:
                 aux2 = aux.acceso
+
+    def contarRecursos(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        contadorRecursos = 0
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'R':
+                        contadorRecursos += 1
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+                
+        return contadorRecursos
            
     def contarCiviles(self):
         aux = self.filas.primero
@@ -104,9 +120,109 @@ class MatrizDispersa():
                 aux2 = aux.acceso
                 
         return contadorCiviles
+    
+    def contarEntradas(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        contadorEntradas = 0
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'E':
+                         contadorEntradas += 1
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+                
+        return contadorEntradas
+    
+    def seleccionAutomaticaCivil(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
         
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'C':
+                        return aux2
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+                
+    def seleccionAutomaticaRecurso(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
         
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'R':
+                        return aux2
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+                
+    def seleccionAutomaticaEntrada(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'E':
+                        return aux2
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+        
+    def mostrarUnidadesCiviles(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'C':
+                        print(f'█ Unidad Civil en posición (fila:{aux2.x},col:{aux2.y})')
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
 
+    def mostrarUnidadesRecursos(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'R':
+                        print(f'█ Unidad Recurso en posición (fila:{aux2.x},col:{aux2.y})')
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+    
+    def mostrarEntradas(self):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.caracter == 'E':
+                        print(f'█ Entrada en posición (fila:{aux2.x},col:{aux2.y})')
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+    
+    
+        
     def graficarDot(self, nombre):
         #-- lo primero es settear los valores que nos preocupan
         grafo = 'digraph T{ \nnode[shape=box fontname="Arial" fillcolor="white" style=filled ]'

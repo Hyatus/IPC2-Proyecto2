@@ -90,6 +90,13 @@ class ListaRobots:
         if actual.Robot.tipo == "ChapinRescue":
             return actual.Robot
         actual = actual.siguiente 
+        
+  def escogerChapinFighterAutomatico(self):
+      actual = self.primero
+      while actual != None:
+        if actual.Robot.tipo == "ChapinFighter":
+            return actual.Robot
+        actual = actual.siguiente 
             
   
   def contadorRobotsExtraccion(self):

@@ -35,9 +35,10 @@ def leerXML(path,ListaCiudades,ListaRobots):
                     while i < len(contenidoColumnas)-1:
                         nodoAux = NodoInterno(numeroFila,i,contenidoColumnas[i],0)
                         matrizAux.insertar(nodoAux)
+                        i += 1
                         #print(contenidoColumnas[i],end="-")
                         #print(f"Número Columna {i} ")
-                        i += 1
+                        
                         
                 ciudadAux = Ciudad(nombreCiudad,matrizAux)
                 ListaCiudades.insertarCiudad(ciudadAux) 
