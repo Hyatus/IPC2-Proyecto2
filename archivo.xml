@@ -19,17 +19,15 @@
         <ciudad>
             <nombre filas="10" columnas="10">CiudadPetapa</nombre>
             <fila numero="1">"**********"</fila>
-            <fila numero="2">"*E    C  R"</fila>
+            <fila numero="2">"*E       R"</fila>
             <fila numero="3">"*** *   **"</fila>
             <fila numero="4">"*** * ****"</fila>
             <fila numero="5">"***     C*"</fila>
-            <fila numero="6">"E   * ****"</fila>
+            <fila numero="6">"E     ****"</fila>
             <fila numero="7">"*** *** **"</fila>
-            <fila numero="8">"*** C ****"</fila>
+            <fila numero="8">"***   ****"</fila>
             <fila numero="9">"*** ******"</fila>
             <fila numero="10">"***      R"</fila>
-            <unidadMilitar fila="2" columna="6">10</unidadMilitar>
-            <unidadMilitar fila="5" columna="7">20</unidadMilitar>
             <unidadMilitar fila="10" columna="5">60</unidadMilitar>
         </ciudad>
         <ciudad>

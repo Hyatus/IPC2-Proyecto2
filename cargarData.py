@@ -33,7 +33,11 @@ def leerXML(path,ListaCiudades,ListaRobots):
                     contenidoColumnas = fila.text
                     i = 1
                     while i < len(contenidoColumnas)-1:
-                        nodoAux = NodoInterno(numeroFila,i,contenidoColumnas[i],0)
+                        if contenidoColumnas[i] == " ":
+                           nodoAux = NodoInterno(numeroFila,i," ",0)
+                        else:
+                           nodoAux = NodoInterno(numeroFila,i,contenidoColumnas[i],0) 
+            
                         matrizAux.insertar(nodoAux)
                         i += 1
                         #print(contenidoColumnas[i],end="-")
