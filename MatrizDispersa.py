@@ -476,13 +476,7 @@ class MatrizDispersa():
             nodoPos = self.pilaPosValidas.desapilar()
             nodoAux = self.buscarNodo(nodoPos.Yv,nodoPos.Xv)
             contador += 1
-            
-        #if not self.pilaPosValidas.noEsVacia():
-        #    print("MISION IMPOSIBLE")
-        #    self.graficarDot("MapaC")
-           
-        
-    
+               
     def algoritmo(self,Ex,Ey,Dx,Dy,nombreCiudad,nombreRobot):
         #fila columna fila columna
         nodoEntrada = self.buscarNodo(Ex,Ey)
