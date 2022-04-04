@@ -1,13 +1,21 @@
 from NodoEncabezado import NodoEncabezado
 from ListaEncabezado import ListaEncabezado
-from NodoInterno import NodoInterno
+from NodoInterno import *
 import os
 import numpy as np
+from PilaPosValidas import *
+from clasePosValida import *
+
 class MatrizDispersa():
     def __init__(self, capa = None):
         self.capa = capa
         self.filas = ListaEncabezado("LISTAS")
         self.columnas = ListaEncabezado("COLUMNAS")
+        self.pilaPosValidas = PilaPosValidas()
+        self.Dx = 0
+        self.Dy = 0
+        self.nombreCiudad = None
+        self.nombreRobot = None
     
     def insertar(self, nodoInterno):
         encabezadoX = self.filas.getEncabezado(nodoInterno.x)
@@ -87,8 +95,6 @@ class MatrizDispersa():
             if aux != None:
                 aux2 = aux.acceso
                 
-
-
     def contarRecursos(self):
         aux = self.filas.primero
         aux2 = aux.acceso
@@ -221,12 +227,12 @@ class MatrizDispersa():
             if aux != None:
                 aux2 = aux.acceso
     
-    def graficarDot(self, nombre):
+    def graficarDot(self, nombreCiudad,nombreRobot):
         #-- lo primero es settear los valores que nos preocupan
         grafo = 'digraph T{ \nnode[shape=box fontname="Arial" fillcolor="white" style=filled ]'
         grafo += '\nroot[label = \"capa: '+ str(self.capa) +'\", group=1]\n'
         grafo += '''label = "{}" \nfontname="Arial Black" \nfontsize="15pt" \n
-                    \n'''.format('MATRIZ DISPERSA')
+                    \n'''.format(f'Tipo de misión: rescate \nUnidad civil rescatada: {self.Dx},{self.Dy} \nRobot utilizado: {nombreRobot} (Chapin Rescue)')
 
         # --- lo siguiente es escribir los nodos encabezados, empezamos con las filas, los nodos tendran el foramto Fn
         x_fila = self.filas.primero
@@ -287,8 +293,10 @@ class MatrizDispersa():
                     grafo += 'N{}_{}[label="{}",group="{}", fillcolor="green"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)  
                 elif aux2.caracter == 'M':
                     grafo += 'N{}_{}[label="{}",group="{}", fillcolor="red"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1) 
+                elif aux2.correcto == 'X':
+                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="blueviolet"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1) 
                 elif aux2.correcto == 'Y':
-                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="yellow"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1) 
+                    grafo += 'N{}_{}[label="{}",group="{}", fillcolor="yellow"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)    
                 elif aux2.caracter == ' ':
                     grafo += 'N{}_{}[label="{}",group="{}", fillcolor="white"];\n'.format(aux2.x, aux2.y, aux2.caracter, int(aux2.y)+1)   
    
@@ -338,10 +346,10 @@ class MatrizDispersa():
         grafo += '}'
 
         # ---- luego de crear el contenido del Dot, procedemos a colocarlo en un archivo
-        dot = "matriz_{}_dot.txt".format(nombre)
+        dot = "matriz_{}_dot.txt".format(nombreCiudad.strip())
         with open(dot, 'w') as f:
             f.write(grafo)
-        result = "matriz_{}.pdf".format(nombre)
+        result = "matriz_{}.pdf".format(nombreCiudad.strip())
         os.system("dot -Tpdf " + dot + " -o " + result) 
 
     def calcularH(self,X1:int,Y1:int,X2:int,Y2:int):
@@ -407,18 +415,84 @@ class MatrizDispersa():
             while aux2 != None:
                 if aux2.derecha != None:
                    aux2.visitado = False
+                   aux2.correcto = None
+                aux2 = aux2.derecha
+            aux = aux.siguiente
+            if aux != None:
+                aux2 = aux.acceso
+    
+    def marcarIncorrecto(self,columna,fila):
+        aux = self.filas.primero
+        aux2 = aux.acceso
+        
+        while aux is not None:
+            while aux2 != None:
+                if aux2.derecha != None:
+                    if aux2.x == fila and aux2.y == columna:
+                        aux2.correcto = 'X'
+                        print(f"Marca Incorrecto en pos({aux2.x},{aux2.y}) caracter: {aux2.caracter}")
                 aux2 = aux2.derecha
             aux = aux.siguiente
             if aux != None:
                 aux2 = aux.acceso
         
+    def buscarNuevoCamino(self):
+        self.pilaPosValidas.recorrer()
+        nodoPos = self.pilaPosValidas.desapilar()
+        nodoAux = self.buscarNodo(nodoPos.Yv,nodoPos.Xv)
         
-    def algoritmo(self,Ex,Ey,Dx,Dy):
+        contador = 0
+        
+        while nodoAux != None and self.pilaPosValidas.noEsVacia():
+            
+            print(f"# -NC- NODO ACTUAL EN COORDENADAS ({nodoAux.x},{nodoAux.y}) ######")
+            VecinoArriba = self.buscarNodo(nodoAux.y,nodoAux.x-1)
+            VecinoAbajo = self.buscarNodo(nodoAux.y,nodoAux.x+1)
+            VecinoDerecha = self.buscarNodo(nodoAux.y+1,nodoAux.x)
+            VecinoIzquierda = self.buscarNodo(nodoAux.y-1,nodoAux.x)
+            
+            if (VecinoArriba != None and (VecinoArriba.caracter == " " or VecinoArriba.caracter == 'E' or VecinoArriba.caracter == 'C') and VecinoArriba.correcto != 'Y' and VecinoArriba.correcto != 'X'):
+                    print(" -> Camino disponible Hacia Arriba")
+                    self.algoritmo(VecinoArriba.y,VecinoArriba.x,self.Dx,self.Dy,self.nombreCiudad,self.nombreRobot)
+                    break
+            else:       
+                if (VecinoAbajo != None and (VecinoAbajo.caracter == " " or VecinoAbajo.caracter == 'E' or VecinoAbajo.caracter == 'C') and VecinoAbajo.correcto != 'Y' and VecinoAbajo.correcto != 'X'):
+                        print(" -> Camino disponible Hacia Abajo")
+                        self.algoritmo(VecinoAbajo.y,VecinoAbajo.x,self.Dx,self.Dy,self.nombreCiudad,self.nombreRobot)
+                        break
+                else:        
+                    if (VecinoDerecha != None and (VecinoDerecha.caracter == " " or VecinoDerecha.caracter == 'E' or VecinoDerecha.caracter == 'C') and VecinoDerecha.correcto != 'Y' and VecinoDerecha.correcto != 'X'):
+                            print(" -> Camino disponible Hacia Derecha")
+                            self.algoritmo(VecinoDerecha.y,VecinoDerecha.x,self.Dx,self.Dy,self.nombreCiudad,self.nombreRobot)
+                            break
+                    else:
+                        if (VecinoIzquierda != None and (VecinoIzquierda.caracter == " " or VecinoIzquierda.caracter == 'E' or VecinoIzquierda.caracter == 'C') and VecinoIzquierda.correcto != 'Y' and VecinoIzquierda.correcto != 'X'):
+                            print(" -> Camino disponible Hacia Izquierda")
+                            self.algoritmo(VecinoIzquierda.y,VecinoIzquierda.x,self.Dx,self.Dy,self.nombreCiudad,self.nombreRobot)
+                            break
+                        else:
+                            self.marcarIncorrecto(nodoAux.y,nodoAux.x)
+            
+            nodoPos = self.pilaPosValidas.desapilar()
+            nodoAux = self.buscarNodo(nodoPos.Yv,nodoPos.Xv)
+            contador += 1
+            
+        #if not self.pilaPosValidas.noEsVacia():
+        #    print("MISION IMPOSIBLE")
+        #    self.graficarDot("MapaC")
+           
+        
+    
+    def algoritmo(self,Ex,Ey,Dx,Dy,nombreCiudad,nombreRobot):
         #fila columna fila columna
         nodoEntrada = self.buscarNodo(Ex,Ey)
         nodoSalida = self.buscarNodo(Dx,Dy)
         self.marcarVisitado(Ex,Ey)
         contador = 0
+        self.Dx = Dx
+        self.Dy = Dy
+        self.nombreCiudad = nombreCiudad
+        self.nombreRobot = nombreRobot
         X2 = int(Dx)
         Y2 = int(Dy)
         if nodoEntrada and nodoSalida:
@@ -426,12 +500,14 @@ class MatrizDispersa():
             print(f"Coordenadas nodo salida ({Dx},{Dy})")
             print(f"Coordenadas nodo Entrada ({Ex},{Ey})")
             
-            while nodoAux != None and contador < 30:
+            while nodoAux != None:
                 
                 print("------------------------------------------------")
                                                       #fila          col
                 print(f"# NODO ACTUAL EN COORDENADAS ({nodoAux.x},{nodoAux.y}) ######")
                 self.marcarCorrecto(nodoAux.y,nodoAux.x)
+                posValidaAux = PosicionValida(nodoAux.x,nodoAux.y)
+                self.pilaPosValidas.apilar(posValidaAux)
                 print("ARRIBA")  
                 VecinoArriba = self.buscarNodo(nodoAux.y,nodoAux.x-1)
                 print("ABAJO")
@@ -444,17 +520,36 @@ class MatrizDispersa():
                 fAbajo = 999999
                 fDerecha = 999999
                 fIzquierda = 999999
+                contadorBloqueos = 0
                 
+                if (VecinoArriba != None and (VecinoArriba.caracter == 'M' or VecinoArriba.caracter == 'R' or VecinoArriba.caracter == "*" or VecinoArriba.visitado == True)):
+                    contadorBloqueos += 1
+                    
+                if (VecinoAbajo != None and (VecinoAbajo.caracter == 'M' or VecinoAbajo.caracter == 'R' or VecinoAbajo.caracter == "*" or VecinoAbajo.visitado == True)):
+                    contadorBloqueos += 1
+                    
+                if (VecinoDerecha != None and (VecinoDerecha.caracter == 'M' or VecinoDerecha.caracter == 'R' or VecinoDerecha.caracter == "*" or VecinoDerecha.visitado == True)):
+                    contadorBloqueos += 1
+                    
+                if (VecinoIzquierda != None and (VecinoIzquierda.caracter == 'M' or VecinoIzquierda.caracter == 'R' or VecinoIzquierda.caracter == "*" or VecinoIzquierda.visitado == True)):
+                    contadorBloqueos += 1
+
                 if nodoAux.caracter == 'C':
                     print("MISION CUMPLIDA")
-                    self.graficarDot("Mapa")
+                    self.graficarDot(nombreCiudad,nombreRobot)
                     self.limpiarRecorrido()
-                    break
-                   
-                if VecinoArriba != None and VecinoArriba.caracter != 'M' and VecinoArriba.caracter != '*' and VecinoArriba.caracter != 'R' and VecinoArriba.visitado == False:
+                    self.pilaPosValidas.vaciar()
+                    return
+                else: 
+                    if contadorBloqueos > 3:
+                        print("ATASCO")
+                        self.buscarNuevoCamino()
+                        break
+                                   
+            
+                if VecinoArriba != None and VecinoArriba.caracter != 'M' and VecinoArriba.caracter != '*' and VecinoArriba.caracter != 'R' and VecinoArriba.visitado == False and VecinoArriba != nodoAux:
                      print(f"Vecino Arriba visitado? {VecinoArriba.visitado}")
-                     
-                     self.marcarVisitado(VecinoArriba.y,VecinoArriba.x)
+                     #self.marcarVisitado(VecinoArriba.y,VecinoArriba.x)
                      X1 = int(VecinoArriba.x)
                      Y1 = int(VecinoArriba.y)
                      hArriba = self.calcularH(X1,Y1,X2,Y2)
@@ -462,9 +557,9 @@ class MatrizDispersa():
                      print(f"valor F Arriba = {fArriba}")
             
                     
-                if VecinoAbajo != None and VecinoAbajo.caracter != 'M' and VecinoAbajo.caracter != '*' and VecinoAbajo.caracter != 'R' and VecinoAbajo.visitado == False:
+                if VecinoAbajo != None and VecinoAbajo.caracter != 'M' and VecinoAbajo.caracter != '*' and VecinoAbajo.caracter != 'R' and VecinoAbajo.visitado == False and VecinoAbajo != nodoAux:
                      print(f"Vecino Abajo visitado? {VecinoAbajo.visitado}")
-                     self.marcarVisitado(VecinoAbajo.y,VecinoAbajo.x)
+                     #self.marcarVisitado(VecinoAbajo.y,VecinoAbajo.x)
                      X1 = int(VecinoAbajo.x)
                      Y1 = int(VecinoAbajo.y)
                      hAbajo = self.calcularH(X1,Y1,X2,Y2)
@@ -472,9 +567,9 @@ class MatrizDispersa():
                      print(f"valor F Abajo = {fAbajo}")
            
                     
-                if VecinoDerecha != None and VecinoDerecha.caracter != 'M' and VecinoDerecha.caracter != '*' and VecinoDerecha.caracter != 'R' and VecinoDerecha.visitado == False:
+                if VecinoDerecha != None and VecinoDerecha.caracter != 'M' and VecinoDerecha.caracter != '*' and VecinoDerecha.caracter != 'R' and VecinoDerecha.visitado == False and VecinoDerecha != nodoAux:
                      print(f"Vecino Derecha visitado? {VecinoDerecha.visitado}")
-                     self.marcarVisitado(VecinoDerecha.y,VecinoDerecha.x)
+                     #self.marcarVisitado(VecinoDerecha.y,VecinoDerecha.x)
                      X1 = int(VecinoDerecha.x)
                      Y1 = int(VecinoDerecha.y)
                      hDerecha = self.calcularH(X1,Y1,X2,Y2)
@@ -482,9 +577,9 @@ class MatrizDispersa():
                      print(f"valor F Derecha = {fDerecha}") 
           
                      
-                if VecinoIzquierda != None and VecinoIzquierda.caracter != 'M' and VecinoIzquierda.caracter != '*' and VecinoIzquierda.caracter != 'R' and VecinoIzquierda.visitado == False:
+                if VecinoIzquierda != None and VecinoIzquierda.caracter != 'M' and VecinoIzquierda.caracter != '*' and VecinoIzquierda.caracter != 'R' and VecinoIzquierda.visitado == False and VecinoIzquierda != nodoAux:
                      print(f"Vecino Izquierda visitado? {VecinoIzquierda.visitado}")
-                     self.marcarVisitado(VecinoIzquierda.y,VecinoIzquierda.x)
+                     #self.marcarVisitado(VecinoIzquierda.y,VecinoIzquierda.x)
                      X1 = int(VecinoIzquierda.x)
                      Y1 = int(VecinoIzquierda.y)
                      hIzquierda = self.calcularH(X1,Y1,X2,Y2)
@@ -494,45 +589,58 @@ class MatrizDispersa():
                      
                 print(f"fArriba {fArriba} - fAbajo {fAbajo} - fDerecha {fDerecha} - fIzquierda {fIzquierda}")     
                 
+                if fAbajo == 999999 and fArriba == 999999 and fDerecha == 999999 and fIzquierda == 999999:
+                    print("MISION IMPOSIBLE ")
+                    self.graficarDot("MisionImposible",self.nombreRobot)
+                    break
+                
                 if fAbajo < fArriba and fAbajo < fDerecha and fAbajo < fIzquierda:
                     print(f"#ITERACION # {contador}")
                     print(f"Vecino más cercano en pos ({VecinoAbajo.x},{VecinoAbajo.y})")
                     nodoAux = VecinoAbajo
+                    self.marcarVisitado(nodoAux.y,nodoAux.x)
                 else:
                     if fArriba < fAbajo and fArriba < fDerecha and fArriba < fIzquierda:
                         print(f"#ITERACION # {contador}")
                         print(f"Vecino más cercano en pos ({VecinoArriba.x},{VecinoArriba.y})")
                         nodoAux = VecinoArriba
+                        self.marcarVisitado(nodoAux.y,nodoAux.x)
                     else:
                         if fDerecha < fArriba and fDerecha < fAbajo and fDerecha < fIzquierda:
                             print(f"#ITERACION # {contador}")
                             print(f"Vecino más cercano en pos ({VecinoDerecha.x},{VecinoDerecha.y})")
                             nodoAux = VecinoDerecha
+                            self.marcarVisitado(nodoAux.y,nodoAux.x)
                         else:
                             if fIzquierda < fArriba and fIzquierda < fDerecha and fIzquierda < fAbajo:
                                 print(f"#ITERACION # {contador}")
                                 print(f"Vecino más cercano en pos ({VecinoIzquierda.x},{VecinoIzquierda.y})")
                                 nodoAux = VecinoIzquierda
+                                self.marcarVisitado(nodoAux.y,nodoAux.x)
                             else:
                                 if ((fArriba != 999999) and (fArriba == fAbajo or fArriba == fDerecha or fArriba == fIzquierda)):
                                     print(f"#ITERACION # {contador}")
                                     print(f"Vecino más cercano en pos ({VecinoArriba.x},{VecinoArriba.y})")
                                     nodoAux = VecinoArriba
+                                    self.marcarVisitado(nodoAux.y,nodoAux.x)
                                 else:
                                     if ((fAbajo != 999999) and (fAbajo == fArriba or fAbajo == fDerecha or fAbajo == fIzquierda)):
                                         print(f"#ITERACION # {contador}")
                                         print(f"Vecino más cercano en pos ({VecinoAbajo.x},{VecinoAbajo.y})")
                                         nodoAux = VecinoAbajo
+                                        self.marcarVisitado(nodoAux.y,nodoAux.x)
                                     else:
                                         if ((fDerecha != 999999) and (fDerecha == fArriba or fDerecha == fAbajo or fDerecha == fIzquierda)):
                                             print(f"#ITERACION # {contador}")
                                             print(f"Vecino más cercano en pos ({VecinoDerecha.x},{VecinoDerecha.y})")
                                             nodoAux = VecinoDerecha
+                                            self.marcarVisitado(nodoAux.y,nodoAux.x)
                                         else: 
                                             if ((fIzquierda != 999999) and (fIzquierda == fArriba or fIzquierda == fAbajo or fIzquierda == fDerecha)):
                                                 print(f"#ITERACION # {contador}")
                                                 print(f"Vecino más cercano en pos ({VecinoIzquierda.x},{VecinoIzquierda.y})")
                                                 nodoAux = VecinoIzquierda
+                                                self.marcarVisitado(nodoAux.y,nodoAux.x)
 
                 contador +=1   
                 

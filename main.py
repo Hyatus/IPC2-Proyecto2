@@ -50,6 +50,7 @@ def escogerMapaC(listadeCiudades):
                 #print(contadorCiviles)
                 if contadorCiviles == 0:
                         print("NO HAY UNIDADES CIVILES NO SE PUEDE REALIZAR LA MISIÓN ")
+                        return None,0,0
                 if contadorCiviles == 1:
                         print("\nEXISTE SÓLO UNA UNIDAD CIVIL ")
                         unidadCivilEscogida = ciudadEscogida.Ciudad.matrizDispersa.seleccionAutomaticaCivil()
@@ -172,7 +173,7 @@ def menuPrincipal(listadeCiudades,listadeRobots):
                         print(f"Ciudad Seleccionada: {ciudadEscogida.Ciudad.nombre}")
                         print(f"Unidad Civil Seleccionada en pos ({filaCivil},{columnaCivil})")
                         print(f"Entrada Seleccionada en pos ({filaEntrada},{columnaEntrada})")
-                        ciudadEscogida.Ciudad.matrizDispersa.algoritmo(int(filaEntrada),int(columnaEntrada),int(columnaCivil),int(filaCivil))
+                        ciudadEscogida.Ciudad.matrizDispersa.algoritmo(int(filaEntrada),int(columnaEntrada),int(columnaCivil),int(filaCivil),ciudadEscogida.Ciudad.nombre,nombreRobot)
                 else:
                    print("No hay robots ChapinRescue, no se puede realizar misión de rescate")
                         
