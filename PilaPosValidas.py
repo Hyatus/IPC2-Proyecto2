@@ -12,7 +12,8 @@ class PilaPosValidas:
         print(f" Coordenada: ({elemento.Xv},{elemento.Yv})")
 
   def desapilar(self):
-    return self.pila.pop()     
+      return self.pila.pop()  
+        
 
   def vaciar(self):
     self.pila.clear() 
@@ -22,6 +23,7 @@ class PilaPosValidas:
    
   def noEsVacia(self):
       if not self.pila:
+            #Está vacía 
             return False
       else:
             return True

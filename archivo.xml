@@ -27,7 +27,7 @@
             <fila numero="7">"*** *** **"</fila>
             <fila numero="8">"***     **"</fila>
             <fila numero="9">"*** ******"</fila>
-            <fila numero="10">"***      R"</fila>
+            <fila numero="10">"***     R"</fila>
             <unidadMilitar fila="2" columna="5">60</unidadMilitar>
             <unidadMilitar fila="3" columna="6">60</unidadMilitar>
             <unidadMilitar fila="5" columna="7">60</unidadMilitar>
@@ -36,15 +36,15 @@
         <ciudad>
             <nombre filas="10" columnas="10">CiudadMixco</nombre>
             <fila numero="1">"****E ****"</fila>
-            <fila numero="2">"***   C  R"</fila>
+            <fila numero="2">"***      R"</fila>
             <fila numero="3">"*** ***R**"</fila>
             <fila numero="4">"*** *** **"</fila>
-            <fila numero="5">"***  R  C*"</fila>
+            <fila numero="5">"***  R   *"</fila>
             <fila numero="6">"E   *** **"</fila>
             <fila numero="7">"*** *** **"</fila>
-            <fila numero="8">"***C*** *C"</fila>
+            <fila numero="8">"*** *** * "</fila>
             <fila numero="9">"*** *** **"</fila>
-            <fila numero="10">"***E    R"</fila>
+            <fila numero="10">"***E    R*"</fila>
             <unidadMilitar fila="2" columna="5">10</unidadMilitar>
             <unidadMilitar fila="5" columna="5">20</unidadMilitar>
             <unidadMilitar fila="10" columna="5">60</unidadMilitar>
@@ -67,17 +67,21 @@
         <ciudad>
             <nombre filas="10" columnas="10">CiudadGuate</nombre>
             <fila numero="1">"********************"</fila>
-            <fila numero="2">"***E   RCR         R"</fila>
+            <fila numero="2">"***E   RCR        R*"</fila>
             <fila numero="3">"***    R*R    ******"</fila>
             <fila numero="4">"***           ******"</fila>
             <fila numero="5">"*                  *"</fila>
             <fila numero="6">"E             **R***"</fila>
             <fila numero="7">"*** **           ***"</fila>
-            <fila numero="8">"*** **   R       ***"</fila>
-            <fila numero="9">"***           C*****"</fila>
+            <fila numero="8">"*** **   R        **"</fila>
+            <fila numero="9">"***           C** **"</fila>
             <fila numero="10">"***R             R*"</fila>
             <unidadMilitar fila="2" columna="5">10</unidadMilitar>
             <unidadMilitar fila="5" columna="5">20</unidadMilitar>
+            <unidadMilitar fila="10" columna="17">80</unidadMilitar>
+            <unidadMilitar fila="9" columna="18">40</unidadMilitar>
+            <unidadMilitar fila="8" columna="18">10</unidadMilitar>
+
         </ciudad>
     </listaCiudades>
     <robots>

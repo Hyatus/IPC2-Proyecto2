@@ -20,6 +20,7 @@ def escogerMapaE(listadeCiudades):
                 contadorRecurso = ciudadEscogida.Ciudad.matrizDispersa.contarRecursos()
                 if contadorRecurso == 0:
                         print("NO HAY UNIDADES DE RECURSOS NO SE PUEDE REALIZAR LA MISIÓN ")
+                        return None,0,0
                 if contadorRecurso == 1:
                         print("\nEXISTE SÓLO UNA UNIDAD DE RECURSOS ")
                         unidadRecursoEscogida = ciudadEscogida.Ciudad.matrizDispersa.seleccionAutomaticaRecurso()
@@ -93,7 +94,7 @@ def escogerRobotC(listadeRobots):
                 else:
                         print(" ")
                         print("ROBOT INGRESADO NO EXISTE ")
-                        return " "
+                        return None
                 
 def escogerRobotE(listadeRobots):
         contadorChapinFighter = listadeRobots.contadorRobotsExtraccion()
@@ -106,9 +107,9 @@ def escogerRobotE(listadeRobots):
                 print(f'ChapinFighter: {robotDeExtraccion.nombre} Capacidad Combate: {robotDeExtraccion.capacidadCombate}')  
                 return robotDeExtraccion.nombre, robotDeExtraccion.capacidadCombate                    
         else:  
-                #------------------------------------------#
-                #          MÁS DE UNA UNIDAD DE RESCATE    #
-                #------------------------------------------#      
+                #---------------------------------------------#
+                #          MÁS DE UNA UNIDAD DE EXTRACCION    #
+                #---------------------------------------------#      
                 print("\n------------ ESCOJA UN ROBOT ------------")
                 listadeRobots.imprimirRobots(True) 
                 print(" ")
@@ -122,7 +123,7 @@ def escogerRobotE(listadeRobots):
                 else:
                         print(" ")
                         print("ROBOT INGRESADO NO EXISTE ")
-                        return " ",0
+                        return None,0
                 
 
 def escogerEntrada(ciudadEscogida):
@@ -165,15 +166,18 @@ def menuPrincipal(listadeCiudades,listadeRobots):
                 hayRobotsDeRescate = listadeRobots.hayRobotsDeRescate()
                 if hayRobotsDeRescate:
                    nombreRobot = escogerRobotC(listadeRobots)
-                   ciudadEscogida,filaCivil,columnaCivil = escogerMapaC(listadeCiudades)
-                   if ciudadEscogida:
-                        columnaEntrada,filaEntrada = escogerEntrada(ciudadEscogida)
-                        print("\n----DATOS------")
-                        print(f"Se escogió el Robot -> {nombreRobot}" )
-                        print(f"Ciudad Seleccionada: {ciudadEscogida.Ciudad.nombre}")
-                        print(f"Unidad Civil Seleccionada en pos ({filaCivil},{columnaCivil})")
-                        print(f"Entrada Seleccionada en pos ({filaEntrada},{columnaEntrada})")
-                        ciudadEscogida.Ciudad.matrizDispersa.algoritmo(int(filaEntrada),int(columnaEntrada),int(columnaCivil),int(filaCivil),ciudadEscogida.Ciudad.nombre,nombreRobot)
+                   if nombreRobot:
+                        ciudadEscogida,filaCivil,columnaCivil = escogerMapaC(listadeCiudades)
+                        if ciudadEscogida:
+                                columnaEntrada,filaEntrada = escogerEntrada(ciudadEscogida)
+                                print("\n----DATOS------")
+                                print(f"Se escogió el Robot -> {nombreRobot}" )
+                                print(f"Ciudad Seleccionada: {ciudadEscogida.Ciudad.nombre}")
+                                print(f"Unidad Civil Seleccionada en pos ({filaCivil},{columnaCivil})")
+                                print(f"Entrada Seleccionada en pos ({filaEntrada},{columnaEntrada})")
+                                ciudadEscogida.Ciudad.matrizDispersa.contadorImposible = 0
+                                ciudadEscogida.Ciudad.matrizDispersa.contadorMisionCumplida = 0
+                                ciudadEscogida.Ciudad.matrizDispersa.algoritmo(int(filaEntrada),int(columnaEntrada),int(columnaCivil),int(filaCivil),ciudadEscogida.Ciudad.nombre,nombreRobot)
                 else:
                    print("No hay robots ChapinRescue, no se puede realizar misión de rescate")
                         
@@ -182,15 +186,22 @@ def menuPrincipal(listadeCiudades,listadeRobots):
               hayRobotsDeExtraccion = listadeRobots.hayRobotsDeExtraccion()
               if hayRobotsDeExtraccion:
                       nombreRobot,capacidadCombate = escogerRobotE(listadeRobots)
-                      ciudadEscogida,filaRecurso,columnaRecurso = escogerMapaE(listadeCiudades)
-                      if ciudadEscogida:
-                        columnaEntrada,filaEntrada = escogerEntrada(ciudadEscogida)
-                        print("\nRESUMEN DE DATOS: ")
-                        print(f"SE ESCOGIÓ EL ROBOT {nombreRobot}")
-                        print(f"CAPACIDAD DE COMBATE {capacidadCombate}")
-                        print(f"Ciudad Seleccionada: {ciudadEscogida.Ciudad.nombre}")
-                        print(f"Unidad de Recurso Seleccionada en pos ({filaRecurso},{columnaRecurso})")
-                        print(f"Entrada Seleccionada en pos ({filaEntrada},{columnaEntrada})")
+                      if nombreRobot:
+                        ciudadEscogida,filaRecurso,columnaRecurso = escogerMapaE(listadeCiudades)
+                        if ciudadEscogida:
+                                columnaEntrada,filaEntrada = escogerEntrada(ciudadEscogida)
+                                print("\nRESUMEN DE DATOS: ")
+                                print(f"SE ESCOGIÓ EL ROBOT {nombreRobot}")
+                                print(f"CAPACIDAD DE COMBATE {capacidadCombate}")
+                                print(f"Ciudad Seleccionada: {ciudadEscogida.Ciudad.nombre}")
+                                print(f"Unidad de Recurso Seleccionada en pos ({filaRecurso},{columnaRecurso})")
+                                print(f"Entrada Seleccionada en pos ({filaEntrada},{columnaEntrada})")
+                                ciudadEscogida.Ciudad.matrizDispersa.contadorImposible = 0
+                                ciudadEscogida.Ciudad.matrizDispersa.contadorMisionCumplida = 0
+                                ciudadEscogida.Ciudad.matrizDispersa.capacidadCombateIni = int(capacidadCombate)
+                                ciudadEscogida.Ciudad.matrizDispersa.Dx = int(columnaRecurso)
+                                ciudadEscogida.Ciudad.matrizDispersa.Dy = int(filaRecurso)
+                                ciudadEscogida.Ciudad.matrizDispersa.algoritmoExtraccion(int(filaEntrada),int(columnaEntrada),int(columnaRecurso),int(filaRecurso),ciudadEscogida.Ciudad.nombre,nombreRobot,int(capacidadCombate))
                 
               else:
                       print("\nNo hay robots ChapinFighter, no se puede realizar misión de extracción")
