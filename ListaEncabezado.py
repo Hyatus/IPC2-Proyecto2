@@ -37,8 +37,7 @@ class ListaEncabezado():
                         aux = aux.siguiente
                     else:
                         break
-
-    
+ 
     def mostrarEncabezado(self):
         aux = self.primero
         while aux != None:

@@ -42,7 +42,6 @@ class ListaRobots:
            
         actual = actual.siguiente    
   
-
   def buscarRobot(self,nombreRobot:str,tipoRobot:str):
         actual = self.primero 
         
@@ -72,8 +71,7 @@ class ListaRobots:
         actual = actual.siguiente
       
       return False
-    
-    
+     
   def contadorRobotsRescate(self):
       actual = self.primero
       contador = 0
@@ -98,7 +96,6 @@ class ListaRobots:
             return actual.Robot
         actual = actual.siguiente 
             
-  
   def contadorRobotsExtraccion(self):
       actual = self.primero
       contador = 0

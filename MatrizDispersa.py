@@ -510,8 +510,7 @@ class MatrizDispersa():
             self.limpiarRecorrido()
             self.pilaPosValidas.vaciar()
             self.contadorImposible += 1
-            
-                               
+                                       
     def algoritmo(self,Ex,Ey,Dx,Dy,nombreCiudad,nombreRobot):
         #fila columna fila columna
         nodoEntrada = self.buscarNodo(Ex,Ey)
